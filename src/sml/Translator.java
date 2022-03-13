@@ -93,13 +93,11 @@ public final class Translator {
                 s2 = scanInt();
                 return new AddInstruction(label, r, s1, s2);
             }
-            // TODO: You will have to write code here for the other instructions.
 
             default -> {
-                System.out.println("Unknown instruction: " + opCode);
+                throw new Error("Unknown instruction: " + opCode);
             }
         }
-        return null; // FIX THIS
     }
 
     /*
