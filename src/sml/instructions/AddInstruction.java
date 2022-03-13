@@ -6,7 +6,7 @@ import sml.Machine;
 /**
  * This class represents the Add instruction from the language.
  *
- * @author ...
+ * @author Juris Barlots
  */
 public class AddInstruction extends Instruction {
 

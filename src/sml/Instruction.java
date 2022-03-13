@@ -1,5 +1,7 @@
 package sml;
 
+import java.util.Objects;
+
 /**
  * This class represents an abstract instruction
  *
@@ -39,7 +41,13 @@ public abstract class Instruction {
 
   public abstract void execute(Machine m);
 
-  // =
+  @Override
+  public boolean equals(Object o ) {
+    if (this == o ) return true;
+    if( getClass() != o.getClass()) return false;
+    Instruction that = (Instruction) o;
+    return Objects.equals(label, that.label) && Objects.equals(opcode, that.opcode);
+  }
 
   @Override
   public String toString() {
