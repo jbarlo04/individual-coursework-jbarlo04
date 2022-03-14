@@ -23,6 +23,11 @@ public class SubInstruction extends Instruction {
     }
 
     @Override
+    public String toString() {
+        return getLabel() + ": " + getOpcode() + " " + register + " " + s1 + " " + s2;
+    }
+
+    @Override
     public void execute(Machine m) {
         Registers regs = m.getRegisters();
         regs.setRegister(register, regs.getRegister(s1) - regs.getRegister(s2));

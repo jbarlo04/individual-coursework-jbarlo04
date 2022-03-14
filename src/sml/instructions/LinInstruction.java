@@ -21,6 +21,11 @@ public class LinInstruction extends Instruction {
     }
 
     @Override
+    public String toString() {
+        return getLabel() + ": " + getOpcode() + " " + register + " " + x;
+    }
+
+    @Override
     public void execute(Machine m) {
         Registers regs = m.getRegisters();
         regs.setRegister(register, x);
