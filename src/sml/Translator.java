@@ -121,6 +121,11 @@ public final class Translator {
                 s1 = scanInt();
                 return new OutInstruction(label, s1);
             }
+            case "bnz" -> {
+                s1 = scanInt();
+                String labelToReach = scan();
+                return new BnzInstruction(label, s1, labelToReach);
+            }
 
             default -> {
                 throw new Error("Unknown instruction: " + opCode);
