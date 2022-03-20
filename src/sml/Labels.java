@@ -11,7 +11,7 @@ import java.util.List;
  *
  * @author ...
  */
-final class Labels {
+public final class Labels {
   private final List<String> labels;
 
   {

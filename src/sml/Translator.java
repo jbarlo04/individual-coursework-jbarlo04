@@ -4,8 +4,6 @@ import sml.instructions.*;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
 import java.util.*;
 
 /**
@@ -86,51 +84,21 @@ public final class Translator {
             return null;
         }
         var opCode = scan();
+        // 1. Find the class based on the opcode("lin") LinInstruction
+        // 2. Get the constructor parameters
+        // 3. We build the constructor parameters
+        // 4. We instance the object  and return it
 
-        switch (opCode) {
-            case "add" -> {
-                r = scanInt();
-                s1 = scanInt();
-                s2 = scanInt();
-                return new AddInstruction(label, r, s1, s2);
-            }
-            case "sub" -> {
-                r = scanInt();
-                s1 = scanInt();
-                s2 = scanInt();
-                return new SubInstruction(label, r, s1, s2);
-            }
-            case "mul" -> {
-                r = scanInt();
-                s1 = scanInt();
-                s2 = scanInt();
-                return new MulInstruction(label, r, s1, s2);
-            }
-            case "div" -> {
-                r = scanInt();
-                s1 = scanInt();
-                s2 = scanInt();
-                return new DivInstruction(label, r, s1, s2);
-            }
-            case "lin" -> {
-                r = scanInt();
-                x = scanInt();
-                return new LinInstruction(label, r, x);
-            }
-            case "out" -> {
-                s1 = scanInt();
-                return new OutInstruction(label, s1);
-            }
-            case "bnz" -> {
-                s1 = scanInt();
-                String labelToReach = scan();
-                return new BnzInstruction(label, s1, labelToReach);
-            }
-
-            default -> {
-                throw new Error("Unknown instruction: " + opCode);
-            }
+        try{
+            var className = "sml.instructions."+ capitalizeFirstLetter(opCode) + "Instruction";
+        } catch(Exception e) {
+            System.err.println("File unknown instruction");
         }
+        return null;
+    }
+
+    private String capitalizeFirstLetter(String word ) {
+        return word.substring(0,1).toUpperCase() + word.substring(1);
     }
 
     /*
