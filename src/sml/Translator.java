@@ -4,6 +4,7 @@ import sml.instructions.*;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
 import java.util.*;
 
 /**
@@ -57,7 +58,6 @@ public final class Translator {
                         prog.add(ins);
                     }
                 }
-
                 try {
                     line = sc.nextLine();
                 } catch (NoSuchElementException ioE) {
@@ -74,23 +74,36 @@ public final class Translator {
     // The input line should consist of an SML instruction, with its label already removed.
     // Translate line into an instruction with label "label" and return the instruction
     public Instruction getInstruction(String label) {
-        int s1; // Possible operands of the instruction
-        int s2;
-        int r;
-        int x;
-        String lbl;
-
         if (line.equals("")) {
             return null;
         }
         var opCode = scan();
+
         // 1. Find the class based on the opcode("lin") LinInstruction
         // 2. Get the constructor parameters
         // 3. We build the constructor parameters
-        // 4. We instance the object  and return it
+        // 4. We instance the object and return it
 
         try{
             var className = "sml.instructions."+ capitalizeFirstLetter(opCode) + "Instruction";
+            var classType = Class.forName(className);
+
+            Constructor constructor = classType.getDeclaredConstructors()[0];
+            Class[] pType = constructor.getParameterTypes();
+
+            Object[] pValue = new Object[pType.length];
+            pValue[0] = label;
+
+            for(int i = 0; i<pType.length; i++) {
+                if(pType[i].equals(int.class)){
+                    pValue[i] = scanInt();
+                } else if(pType[i].equals(String.class)){
+                    pValue[i] = scan();
+                } else {
+                    throw new Error("Unknown instruction "+opCode);
+                }
+            }
+            return (Instruction) constructor.newInstance(pValue);
         } catch(Exception e) {
             System.err.println("File unknown instruction");
         }
